@@ -1,0 +1,62 @@
+---
+title: "Week 5 Code Along Penguin Size Comparisons"
+author: "Carly Norris"
+date: "11/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(palmerpenguins)
+library(effsize)
+library(broom)
+library(ggbeeswarm)
+library(car)
+```
+
+# Part 1. T-tests
+-Used to compare means between groups
+
+Mass comparison: Male & female chinstrap penguins
+
+Do exploring becuase we always should
+
+```{r}
+chinstraps <- penguins %>% 
+  filter(species== "Chinstrap")
+
+# Histograms- only takes one variable and makes the counts for us
+ggplot(data= chinstraps, aes(x= body_mass_g))+
+  geom_histogram(bins= 10)+
+  facet_wrap(~sex)# will split two groups male and female into different plots
+
+```
+The distribution looks relatively normal male is slightly larger than female.
+
+
+## Quantaile-quantile plot compaires our sample to a sample that is normally distributed
+```{r}
+ggplot(data= chinstraps, aes(sample= body_mass_g))+
+  geom_qq()+
+  facet_wrap(~sex)
+```
+These are as close to normally distriuted as you can hope your data will be. 
+
+## Get descriptive statistics
+
+
+```{r}
+chinstraps %>% #dont need to save this outcome
+  group_by(sex) %>% 
+  summarize( # creates new columns 
+    mean_mass = mean(body_mass_g), #labels the column names
+    median_mass = median(body_mass_g),
+    sd_mass = sd(body_mass_g),
+    sample_size = n()
+  )
+```
+
+
+
+
