@@ -57,6 +57,41 @@ chinstraps %>% #dont need to save this outcome
   )
 ```
 
+Get vectors of body_mass_g for female and male chinstrap pemguins separately.
+
+```{r}
+chinstrap_f <- chinstraps %>% 
+  filter(sex== "female") %>% 
+  pull(body_mass_g) #will pull out the values just from the variables we specify
+
+chinstrap_m <- chinstraps %>% 
+    filter(sex== "male") %>% 
+  pull(body_mass_g)
+```
+### T-tests, a couple of different ways
+
+1. Is there a significant difference in body mass between male and female chinstrap penguins?
+
+```{r}
+chinstrap_ttest <- t.test(chinstrap_f, chinstrap_m)
+chinstrap_ttest
+
+cohen.d(chinstrap_f, chinstrap_m)
+```
+t= how different from zero
+degrees of freedom= measure of sample size
+
+d estimate is large which means there is a clear difference between female and male penguins. This isn't as highly impacted by sample sizes. Broom package tidy package. Look in code along key. 
+
+2 Are male chinstrap penguins significantly larger (body mas) than female chinstrap penguins?
+
+The order of things matters. 
+
+```{r}
+t.test(chinstrap_m,chinstrap_f, alternative = "greater") #instead of two sided test update function to make it onesided
+```
+
+
 
 
 
